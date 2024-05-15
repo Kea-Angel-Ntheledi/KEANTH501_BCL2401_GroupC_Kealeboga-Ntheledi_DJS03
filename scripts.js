@@ -23,7 +23,7 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     `
 
     starting.appendChild(element)
-}
+} 
 
 document.querySelector('[data-list-items]').appendChild(starting)
 
