@@ -84,13 +84,17 @@ document.documentElement.style.setProperty(
 
 
 //Set initial button text and state
-document.querySelector('[data-list-button]').innerText = `Show more (${books.length - BOOKS_PER_PAGE})`
-document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) > 0
+const listButton = document.querySelector("[data-list-button]");
+const remainingBooks = matches.length - page * BOOKS_PER_PAGE;
+const remainingText = remainingBooks > 0 ? ` (${remainingBooks})` : "";
 
-document.querySelector('[data-list-button]').innerHTML = `
+listButton.innerHTML = `
     <span>Show more</span>
-    <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
-`
+    <span class="list__remaining">${remainingText}</span>
+`;
+
+listButton.disabled = remainingBooks <= 0;
+
 //Handle cancel button clicks
 document.querySelector('[data-search-cancel]').addEventListener('click', () => {
     document.querySelector('[data-search-overlay]').open = false
