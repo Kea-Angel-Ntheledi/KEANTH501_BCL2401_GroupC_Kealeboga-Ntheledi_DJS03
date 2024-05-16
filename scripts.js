@@ -33,18 +33,20 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
 document.querySelector('[data-list-items]').appendChild(starting)
 
 //Populate genres dropdown
-const genreHtml = document.createDocumentFragment()
-const firstGenreElement = document.createElement('option')
-firstGenreElement.value = 'any'
-firstGenreElement.innerText = 'All Genres'
-genreHtml.appendChild(firstGenreElement)
+const genreHtml = document.createDocumentFragment();
+const firstGenreElement = document.createElement("option");
+firstGenreElement.value = "any";
+firstGenreElement.innerText = "All Genres";
+genreHtml.appendChild(firstGenreElement);
 
-for (const [id, name] of Object.entries(genres)) {
-    const element = document.createElement('option')
-    element.value = id
-    element.innerText = name
-    genreHtml.appendChild(element)
-}
+Object.keys(genres).forEach((id) => {
+  const name = genres[id];
+  const element = document.createElement("option");
+  element.value = id;
+  element.innerText = name;
+  genreHtml.appendChild(element);
+});
+
 
 document.querySelector('[data-search-genres]').appendChild(genreHtml)
 
