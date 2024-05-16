@@ -1,15 +1,19 @@
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js'
 
+//initialize page and matches
 let page = 1;
 let matches = books
 
+//Create document fragment for initial book rendering
 const starting = document.createDocumentFragment()
 
+//Loop through initial books and create HTML  elements
 for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     const element = document.createElement('button')
     element.classList = 'preview'
     element.setAttribute('data-preview', id)
 
+    //Construct HTML content for each book
     element.innerHTML = `
         <img
             class="preview__image"
@@ -25,8 +29,10 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
     starting.appendChild(element)
 } 
 
+//Append initial book elements to the DOM
 document.querySelector('[data-list-items]').appendChild(starting)
 
+//Populate genres dropdown
 const genreHtml = document.createDocumentFragment()
 const firstGenreElement = document.createElement('option')
 firstGenreElement.value = 'any'
@@ -42,6 +48,7 @@ for (const [id, name] of Object.entries(genres)) {
 
 document.querySelector('[data-search-genres]').appendChild(genreHtml)
 
+//Populate authors dropdown
 const authorsHtml = document.createDocumentFragment()
 const firstAuthorElement = document.createElement('option')
 firstAuthorElement.value = 'any'
@@ -57,6 +64,7 @@ for (const [id, name] of Object.entries(authors)) {
 
 document.querySelector('[data-search-authors]').appendChild(authorsHtml)
 
+//Set theme based on system preference
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     document.querySelector('[data-settings-theme]').value = 'night'
     document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
@@ -67,6 +75,7 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').match
     document.documentElement.style.setProperty('--color-light', '255, 255, 255');
 }
 
+//Set initial button text and state
 document.querySelector('[data-list-button]').innerText = `Show more (${books.length - BOOKS_PER_PAGE})`
 document.querySelector('[data-list-button]').disabled = (matches.length - (page * BOOKS_PER_PAGE)) > 0
 
@@ -74,7 +83,7 @@ document.querySelector('[data-list-button]').innerHTML = `
     <span>Show more</span>
     <span class="list__remaining"> (${(matches.length - (page * BOOKS_PER_PAGE)) > 0 ? (matches.length - (page * BOOKS_PER_PAGE)) : 0})</span>
 `
-
+//Handle cancel button clicks
 document.querySelector('[data-search-cancel]').addEventListener('click', () => {
     document.querySelector('[data-search-overlay]').open = false
 })
@@ -96,11 +105,13 @@ document.querySelector('[data-list-close]').addEventListener('click', () => {
     document.querySelector('[data-list-active]').open = false
 })
 
+//Handle settings form submission
 document.querySelector('[data-settings-form]').addEventListener('submit', (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const { theme } = Object.fromEntries(formData)
 
+    //Set theme based on user selection
     if (theme === 'night') {
         document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
         document.documentElement.style.setProperty('--color-light', '10, 10, 20');
@@ -108,16 +119,18 @@ document.querySelector('[data-settings-form]').addEventListener('submit', (event
         document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
         document.documentElement.style.setProperty('--color-light', '255, 255, 255');
     }
-    
+    //Close settings overlay
     document.querySelector('[data-settings-overlay]').open = false
 })
 
+//Handle search form submission
 document.querySelector('[data-search-form]').addEventListener('submit', (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const filters = Object.fromEntries(formData)
     const result = []
 
+    //Filter books based on search criteria
     for (const book of books) {
         let genreMatch = filters.genre === 'any'
 
@@ -135,6 +148,7 @@ document.querySelector('[data-search-form]').addEventListener('submit', (event) 
         }
     }
 
+    //Update matched and render new books
     page = 1;
     matches = result
 
@@ -179,6 +193,7 @@ document.querySelector('[data-search-form]').addEventListener('submit', (event) 
     document.querySelector('[data-search-overlay]').open = false
 })
 
+//Handle "show more" button click
 document.querySelector('[data-list-button]').addEventListener('click', () => {
     const fragment = document.createDocumentFragment()
 
@@ -206,6 +221,7 @@ document.querySelector('[data-list-button]').addEventListener('click', () => {
     page += 1
 })
 
+//Handle  book preview click
 document.querySelector('[data-list-items]').addEventListener('click', (event) => {
     const pathArray = Array.from(event.path || event.composedPath())
     let active = null
