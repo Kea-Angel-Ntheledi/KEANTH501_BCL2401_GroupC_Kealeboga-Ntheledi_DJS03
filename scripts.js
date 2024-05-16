@@ -66,21 +66,29 @@ Object.keys(authors).forEach((id) => {
 
 document.querySelector('[data-search-authors]').appendChild(authorsHtml)
 
-//Set theme based on system preference
-const themeValue =
-  window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "night"
-    : "day";
+// Function to set theme based on user selection
+function setTheme(themeValue) {
+  document.documentElement.setAttribute("data-theme", themeValue);
+  if (themeValue === "night") {
+    document.documentElement.style.setProperty("--color-dark", "255, 255, 255");
+    document.documentElement.style.setProperty("--color-light", "10, 10, 20");
+  } else {
+    document.documentElement.style.setProperty("--color-dark", "10, 10, 20");
+    document.documentElement.style.setProperty("--color-light", "255, 255, 255");
+  }
+}
 
+// Set theme based on system preference
+const themeValue = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "night" : "day";
 document.querySelector("[data-settings-theme]").value = themeValue;
-document.documentElement.style.setProperty(
-  "--color-dark",
-  themeValue === "night" ? "255, 255, 255" : "10, 10, 20"
-);
-document.documentElement.style.setProperty(
-  "--color-light",
-  themeValue === "night" ? "10, 10, 20" : "255, 255, 255"
-);
+setTheme(themeValue);
+
+// Event listener for theme selector
+document.querySelector("[data-settings-theme]").addEventListener("change", function() {
+  const selectedTheme = this.value;
+  setTheme(selectedTheme);
+});
+
 
 
 //Set initial button text and state
