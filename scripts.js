@@ -117,24 +117,33 @@ document
     document.querySelector("[data-settings-overlay]").open = true;
   });
 
-
 //Handle settings form submission
-document.querySelector('[data-settings-form]').addEventListener('submit', (event) => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    const { theme } = Object.fromEntries(formData)
+document
+  .querySelector("[data-settings-form]")
+  .addEventListener("submit", (event) => {
+    event.preventDefault();
 
-    //Set theme based on user selection
-    if (theme === 'night') {
-        document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-        document.documentElement.style.setProperty('--color-light', '10, 10, 20');
+    const theme = document.querySelector('[name="theme"]').value;
+
+    // Set theme based on user selection
+    if (theme === "night") {
+      document.documentElement.style.setProperty(
+        "--color-dark",
+        "255, 255, 255"
+      );
+      document.documentElement.style.setProperty("--color-light", "10, 10, 20");
     } else {
-        document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-        document.documentElement.style.setProperty('--color-light', '255, 255, 255');
+      document.documentElement.style.setProperty("--color-dark", "10, 10, 20");
+      document.documentElement.style.setProperty(
+        "--color-light",
+        "255, 255, 255"
+      );
     }
-    //Close settings overlay
-    document.querySelector('[data-settings-overlay]').open = false
-})
+
+    // Close settings overlay
+    document.querySelector("[data-settings-overlay]").open = false;
+  });
+
 
 //Handle search form submission
 document.querySelector('[data-search-form]').addEventListener('submit', (event) => {
