@@ -96,26 +96,27 @@ listButton.innerHTML = `
 listButton.disabled = remainingBooks <= 0;
 
 //Handle cancel button clicks
-document.querySelector('[data-search-cancel]').addEventListener('click', () => {
-    document.querySelector('[data-search-overlay]').open = false
-})
+function handleCancelClick(cancelSelector, overlaySelector) {
+  document.querySelector(cancelSelector).addEventListener("click", () => {
+    document.querySelector(overlaySelector).open = false;
+  });
+}
 
-document.querySelector('[data-settings-cancel]').addEventListener('click', () => {
-    document.querySelector('[data-settings-overlay]').open = false
-})
+handleCancelClick("[data-search-cancel]", "[data-search-overlay]");
+handleCancelClick("[data-settings-cancel]", "[data-settings-overlay]");
+handleCancelClick("[data-list-close]", "[data-list-active]");
 
-document.querySelector('[data-header-search]').addEventListener('click', () => {
-    document.querySelector('[data-search-overlay]').open = true 
-    document.querySelector('[data-search-title]').focus()
-})
+document.querySelector("[data-header-search]").addEventListener("click", () => {
+  document.querySelector("[data-search-overlay]").open = true;
+  document.querySelector("[data-search-title]").focus();
+});
 
-document.querySelector('[data-header-settings]').addEventListener('click', () => {
-    document.querySelector('[data-settings-overlay]').open = true 
-})
+document
+  .querySelector("[data-header-settings]")
+  .addEventListener("click", () => {
+    document.querySelector("[data-settings-overlay]").open = true;
+  });
 
-document.querySelector('[data-list-close]').addEventListener('click', () => {
-    document.querySelector('[data-list-active]').open = false
-})
 
 //Handle settings form submission
 document.querySelector('[data-settings-form]').addEventListener('submit', (event) => {
