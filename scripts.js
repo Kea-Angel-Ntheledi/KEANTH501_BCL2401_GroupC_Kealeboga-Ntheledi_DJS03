@@ -64,19 +64,24 @@ Object.keys(authors).forEach((id) => {
   authorsHtml.appendChild(element);
 });
 
-
 document.querySelector('[data-search-authors]').appendChild(authorsHtml)
 
 //Set theme based on system preference
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.querySelector('[data-settings-theme]').value = 'night'
-    document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-    document.documentElement.style.setProperty('--color-light', '10, 10, 20');
-} else {
-    document.querySelector('[data-settings-theme]').value = 'day'
-    document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-    document.documentElement.style.setProperty('--color-light', '255, 255, 255');
-}
+const themeValue =
+  window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "night"
+    : "day";
+
+document.querySelector("[data-settings-theme]").value = themeValue;
+document.documentElement.style.setProperty(
+  "--color-dark",
+  themeValue === "night" ? "255, 255, 255" : "10, 10, 20"
+);
+document.documentElement.style.setProperty(
+  "--color-light",
+  themeValue === "night" ? "10, 10, 20" : "255, 255, 255"
+);
+
 
 //Set initial button text and state
 document.querySelector('[data-list-button]').innerText = `Show more (${books.length - BOOKS_PER_PAGE})`
