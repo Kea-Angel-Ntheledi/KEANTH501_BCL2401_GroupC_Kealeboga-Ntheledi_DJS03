@@ -43,22 +43,18 @@ const createOptions = (options, defaultOption, container) => {
   container.appendChild(fragment);
 };
 
-//Populate authors dropdown
-const authorsHtml = document.createDocumentFragment();
-const firstAuthorElement = document.createElement("option");
-firstAuthorElement.value = "any";
-firstAuthorElement.innerText = "All Authors";
-authorsHtml.appendChild(firstAuthorElement);
-
-Object.keys(authors).forEach((id) => {
-  const name = authors[id];
-  const element = document.createElement("option");
-  element.value = id;
-  element.innerText = name;
-  authorsHtml.appendChild(element);
-});
-
-document.querySelector("[data-search-authors]").appendChild(authorsHtml);
+// Function to apply theme
+const applyTheme = (theme) => {
+  const isNight = theme === "night";
+  document.documentElement.style.setProperty(
+    "--color-dark",
+    isNight ? "255, 255, 255" : "10, 10, 20"
+  );
+  document.documentElement.style.setProperty(
+    "--color-light",
+    isNight ? "10, 10, 20" : "255, 255, 255"
+  );
+};
 
 // Function to set theme based on user selection
 function setTheme(themeValue) {
