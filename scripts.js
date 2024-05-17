@@ -27,25 +27,21 @@ const createBookPreviews = (books, container) => {
 };
 
 
-//Append initial book elements to the DOM
-document.querySelector("[data-list-items]").appendChild(starting);
-
-//Populate genres dropdown
-const genreHtml = document.createDocumentFragment();
-const firstGenreElement = document.createElement("option");
-firstGenreElement.value = "any";
-firstGenreElement.innerText = "All Genres";
-genreHtml.appendChild(firstGenreElement);
-
-Object.keys(genres).forEach((id) => {
-  const name = genres[id];
-  const element = document.createElement("option");
-  element.value = id;
-  element.innerText = name;
-  genreHtml.appendChild(element);
-});
-
-document.querySelector("[data-search-genres]").appendChild(genreHtml);
+// Function to create and append options to a select element
+const createOptions = (options, defaultOption, container) => {
+  const fragment = document.createDocumentFragment();
+  const firstOption = document.createElement("option");
+  firstOption.value = "any";
+  firstOption.innerText = defaultOption;
+  fragment.appendChild(firstOption);
+  Object.entries(options).forEach(([id, name]) => {
+    const element = document.createElement("option");
+    element.value = id;
+    element.innerText = name;
+    fragment.appendChild(element);
+  });
+  container.appendChild(fragment);
+};
 
 //Populate authors dropdown
 const authorsHtml = document.createDocumentFragment();
