@@ -69,8 +69,11 @@ const updateShowMoreButton = () => {
       })</span>
     `;
 
+  // Setting the disabled state of the button
+  button.disabled = remainingBooks <= 0;
+};
 
-//Handle cancel button clicks
+
 // Handle cancel button clicks
 function handleCancelClick(cancelSelector, overlaySelector) {
   document.querySelector(cancelSelector).addEventListener("click", () => {
