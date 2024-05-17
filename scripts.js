@@ -56,48 +56,19 @@ const applyTheme = (theme) => {
   );
 };
 
-// Function to set theme based on user selection
-function setTheme(themeValue) {
-  document.documentElement.setAttribute("data-theme", themeValue);
-  if (themeValue === "night") {
-    document.documentElement.style.setProperty("--color-dark", "255, 255, 255");
-    document.documentElement.style.setProperty("--color-light", "10, 10, 20");
-  } else {
-    document.documentElement.style.setProperty("--color-dark", "10, 10, 20");
-    document.documentElement.style.setProperty(
-      "--color-light",
-      "255, 255, 255"
-    );
-  }
-}
+// Function to update "Show more" button text and state
+const updateShowMoreButton = () => {
+  const remainingBooks = matches.length - page * BOOKS_PER_PAGE;
+  const button = getElement("[data-list-button]");
 
-// Set theme based on system preference
-const themeValue =
-  window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "night"
-    : "day";
-document.querySelector("[data-settings-theme]").value = themeValue;
-setTheme(themeValue);
+  // Setting innerHTML once to avoid overriding issues
+  button.innerHTML = `
+      <span>Show more</span>
+      <span class="list__remaining">(${
+        remainingBooks > 0 ? remainingBooks : 0
+      })</span>
+    `;
 
-// Event listener for theme selector
-document
-  .querySelector("[data-settings-theme]")
-  .addEventListener("change", function () {
-    const selectedTheme = this.value;
-    setTheme(selectedTheme);
-  });
-
-//Set initial button text and state
-const listButton = document.querySelector("[data-list-button]");
-const remainingBooks = matches.length - page * BOOKS_PER_PAGE;
-const remainingText = remainingBooks > 0 ? ` (${remainingBooks})` : "";
-
-listButton.innerHTML = `
-    <span>Show more</span>
-    <span class="list__remaining">${remainingText}</span>
-`;
-
-listButton.disabled = remainingBooks <= 0;
 
 //Handle cancel button clicks
 // Handle cancel button clicks
