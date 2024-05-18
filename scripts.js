@@ -34,6 +34,7 @@ const createOptions = (options, defaultOption, container) => {
   firstOption.value = "any";
   firstOption.innerText = defaultOption;
   fragment.appendChild(firstOption);
+  
   Object.entries(options).forEach(([id, name]) => {
     const element = document.createElement("option");
     element.value = id;
